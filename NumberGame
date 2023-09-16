@@ -6,6 +6,7 @@ public class NumberGame {
 	public static void main(String[] args) {
 		Random random = new Random(); 
 		Scanner sc = new Scanner(System.in);
+                int count=0;
 		int RandomNumber = random.nextInt(101); // Generating a Random Number between 0 to 100;
 		System.out.println("Enter the number of turns");
 		int testcases= sc.nextInt();
@@ -29,9 +30,9 @@ public class NumberGame {
 			}
 	  
 	}
-
+  count++;
 }
-
+  System.out.println("Total number of times guessed " +(count+1)); // Printing the number of times user has played the game;
 }
 	
 }
