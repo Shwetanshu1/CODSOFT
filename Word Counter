@@ -1,0 +1,119 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class WordCount {
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+
+        // Task 1: Prompt the user to enter text or provide a file
+        System.out.println("Enter '1' to input text, '2' to input a file:");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline
+
+        String inputText = "";
+        if (choice == 1) {
+            // Task 2: Read input text from the user
+            System.out.println("Enter the text:");
+            inputText = scanner.nextLine();
+        } else if (choice == 2) {
+            // Task 2: Read input from a file
+            System.out.println("Enter the file path:");
+            String filePath = scanner.nextLine();
+            inputText = readFile(filePath);
+        } else {
+            System.out.println("Invalid choice. Please choose '1' or '2'.");
+            scanner.close();
+            return;
+        }
+
+        // Task 3: Split the input text into an array of words
+        String[] words = splitIntoWords(inputText);
+
+        // Task 4: Initialize a counter variable
+        int wordCount = countWords(words);
+
+        // Task 7: Create a set of common words to ignore
+        String[] commonWords = {"the", "and", "in", "of", "a", "to", "for", "on", "with", "as"};
+
+        // Task 8: Create a map to store word frequencies
+        Map<String, Integer> wordFrequencies = getWordFrequencies(words, commonWords);
+
+        // Task 6: Display the total word count
+        displayWordCount(wordCount);
+
+        // Task 8: Display word frequencies
+        displayWordFrequencies(wordFrequencies);
+
+        // Task 8: Display the number of unique words
+        displayUniqueWordCount(wordFrequencies);
+
+        scanner.close();
+    }
+
+    // Task 3: Split the input text into an array of words
+    public static String[] splitIntoWords(String text) {
+        return text.split("[\\s.,!?;:]+");
+    }
+
+    // Task 4: Count words
+    public static int countWords(String[] words) {
+        return words.length;
+    }
+
+    // Task 5: Iterate through the array of words and count words
+    // Task 7: Ignore common words
+    public static Map<String, Integer> getWordFrequencies(String[] words, String[] commonWords) {
+        Map<String, Integer> wordFrequencies = new HashMap<>();
+        for (String word : words) {
+            if (!isCommonWord(word, commonWords)) {
+                wordFrequencies.put(word, wordFrequencies.getOrDefault(word, 0) + 1);
+            }
+        }
+        return wordFrequencies;
+    }
+
+    // Function to check if a word is a common word to ignore
+    public static boolean isCommonWord(String word, String[] commonWords) {
+        for (String commonWord : commonWords) {
+            if (word.equalsIgnoreCase(commonWord)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Task 8: Display the total word count
+    public static void displayWordCount(int count) {
+        System.out.println("Total word count: " + count);
+    }
+
+    // Task 8: Display word frequencies
+    public static void displayWordFrequencies(Map<String, Integer> wordFrequencies) {
+        System.out.println("Word frequencies:");
+        for (Map.Entry<String, Integer> entry : wordFrequencies.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    // Task 8: Display the number of unique words
+    public static void displayUniqueWordCount(Map<String, Integer> wordFrequencies) {
+        System.out.println("Number of unique words: " + wordFrequencies.size());
+    }
+
+    // Function to read text from a file
+    public static String readFile(String filePath) throws IOException {
+        StringBuilder content = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            content.append(line).append("\n");
+        }
+        reader.close();
+        return content.toString();
+    }
+}
